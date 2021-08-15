@@ -19,5 +19,10 @@ Route::get('/', function () {
     return view('top');
 });
 
-Route::get('/products', 'ProductsController@index')->name('products.index');
-Route::get('/search', 'ProductsController@search')->name('product.search');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/products', 'ProductsController@index')->name('products.index');
+    Route::get('/search', 'ProductsController@search')->name('product.search');
+    Route::get('/products/{id}', 'ProductsController@detail')->name('products.detail');
+    Route::post('/add', 'CartController@addCart')->name('addCart');
+    Route::get('/cart', 'CartController@cartList')->name('cartList');
+});

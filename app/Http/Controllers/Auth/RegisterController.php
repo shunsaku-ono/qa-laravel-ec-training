@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\MUser;
+use App\Rules\AlphaNumHalf;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,9 +50,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', new AlphaNumHalf, 'min:6', 'max:15', 'confirmed'],
+            'last_name' => ['required', 'max:10'],
+            'first_name' => ['required', 'max:10'],
+            'zipcode' => ['required', 'max:7'],
+            'prefecture' => ['required', 'max:5'],
+            'municipality' => ['required', 'max:10'],
+            'address' => ['required', 'max:15'],
+            'apartments' => ['max:20'],
+            'email' => ['required', 'string', 'email', 'unique:users'],
+            'phone_number' => ['required', 'max:15'],
         ]);
     }
 
@@ -59,14 +67,21 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\MUser
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+        return MUser::create([
             'password' => Hash::make($data['password']),
+            'last_name' => $data['last_name'],
+            'first_name' => $data['first_name'],
+            'zipcode' => $data['zipcode'],
+            'prefecture' => $data['prefecture'],
+            'municipality' => $data['municipality'],
+            'address' => $data['address'],
+            'apartments' => $data['apartments'],
+            'email' => $data['email'],
+            'phone_number' => $data['phone_number'],
         ]);
     }
 }

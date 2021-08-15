@@ -12,6 +12,6 @@ class MUsersTableSeeder extends Seeder
     public function run()
     {
         // Factoryモデルを使用してユーザーを作成
-        factory(App\MUser::class, 10)->create();
+        factory(App\MUser::class, 20)->create();
     }
 }

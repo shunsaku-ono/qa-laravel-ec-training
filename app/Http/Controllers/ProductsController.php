@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -47,4 +48,21 @@ class ProductsController extends Controller
             'products' => $products,
         ]);
     }
+
+    public function detail($id)
+    {
+        //変数の初期化
+        $product = array();
+        $userId = '';
+        //urlパラメータからきたユーザidを元にモデルからそれぞれ商品、カテゴリーを特定
+        $product = Product::findOrFail($id);
+        $userId = Auth::user()->id;
+
+        return view('products.detail',
+            [
+                'product' => $product,
+                'userId' => $userId,
+            ]);
+    }
+
 }

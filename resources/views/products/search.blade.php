@@ -49,18 +49,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
-                        <tr>
-                            <td>{{ $product->product_name }}</td>
-                            <td>{{ $product->categories->category_name }}</td>
-                            <td>{{ $product->price }}</td>
-                            <td type="submit" name="name" value="商品詳細" class="btn btn-primary">
-                                商品詳細
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                    @if (isset($products))
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>{{ $product->product_name }}</td>
+                                <td>{{ $product->categories->category_name }}</td>
+                                <td>{{ $product->price }}</td>
+                                <td><a href="{{ route('products.detail', ['id' => $product->id]) }}"
+                                        class="btn btn-primary">商品詳細</a>
+                                </td>
+                            </tr>
+                        @endforeach
 
+                    @else
+                        <div class="container">
+                            <div class="row mt-5">
+                                <div class="col-lg-12 text-center">
+                                    <h1>該当商品が見つかりませんでした...</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row mt-5">
+                                <div class="col-lg-12 text-center">
+                                    <h3>商品検索画面に戻り、やり直してください</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary col-md-2 offset-md-5 mt-2">商品検索画面へ</button>
+                    @endif
+                </tbody>
             </table>
         </div>
     </div>
